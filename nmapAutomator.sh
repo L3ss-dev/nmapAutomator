@@ -696,8 +696,8 @@ reconRecommend() {
 
                 # echo "nmap -Pn -p 389 --script ldap-search --script-args 'ldap.username=\"\$(grep rootDomainNamingContext \"recon/ldapsearch_${HOST}.txt\" | cut -d \\" \\" -f2)\"' \"${HOST}\" -oN \"recon/nmap_ldap_${HOST}.txt\""
 
-                # fix ldap.username
-                echo "nmap -Pn -p 389 --script ldap-search --script-args 'ldap.username=\"\$(grep sAMAccountName \"recon/ldapsearch_DC_${HOST}.txt\" | cut -d \\" \\" -f2)\"' \"${HOST}\" -oN \"recon/nmap_ldap_${HOST}.txt\""
+                # fix ldap
+                echo "nmap -Pn -p 389 --script \"ldap* and not brute\" \"${HOST}\" -oN \"recon/nmap_ldap_${HOST}.txt\""
 
                 echo
         fi
