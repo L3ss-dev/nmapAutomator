@@ -835,7 +835,7 @@ main() {
                 scriptScan "${HOST}"
                 fullScan "${HOST}"
                 UDPScan "${HOST}"
-                vulnsScan "${HOST}"
+                # vulnsScan "${HOST}"
                 recon "${HOST}"
                 ;;
         esac
