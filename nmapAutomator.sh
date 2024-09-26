@@ -1,5 +1,6 @@
 #!/bin/sh
 #by @21y4d
+#update l3ss
 
 # Define ANSI color variables
 RED='\033[0;31m'
@@ -668,6 +669,8 @@ reconRecommend() {
                 printf "${NC}\n"
                 echo "snmp-check \"${HOST}\" -c public | tee \"recon/snmpcheck_${HOST}.txt\""
                 echo "snmpwalk -Os -c public -v1 \"${HOST}\" | tee \"recon/snmpwalk_${HOST}.txt\""
+				# add search nsExtendOutputFull
+				echo "snmpwalk -v 1 -c public ${HOST} NET-SNMP-EXTEND-MIB::nsExtendOutputFull | tee recon/snmpwalk_EXTEND_${HOST}.txt"
                 echo
         fi
 
@@ -676,8 +679,13 @@ reconRecommend() {
                 printf "${NC}\n"
                 printf "${YELLOW}ldap Recon:\n"
                 printf "${NC}\n"
-                echo "ldapsearch -x -h \"${HOST}\" -s base | tee \"recon/ldapsearch_${HOST}.txt\""
-                echo "ldapsearch -x -h \"${HOST}\" -b \"\$(grep rootDomainNamingContext \"recon/ldapsearch_${HOST}.txt\" | cut -d ' ' -f2)\" | tee \"recon/ldapsearch_DC_${HOST}.txt\""
+                # echo "ldapsearch -x -h \"${HOST}\" -s base | tee \"recon/ldapsearch_${HOST}.txt\""
+                # echo "ldapsearch -x -h \"${HOST}\" -b \"\$(grep rootDomainNamingContext \"recon/ldapsearch_${HOST}.txt\" | cut -d ' ' -f2)\" | tee \"recon/ldapsearch_DC_${HOST}.txt\""
+				# -h is not support
+				# update ldapsearch
+                echo "ldapsearch -x -H ldap://\"${HOST}\" -s base | tee \"recon/ldapsearch_${HOST}.txt\""
+                echo "ldapsearch -x -H ldap://\"${HOST}\" -D '' -w '' -b \"\$(grep rootDomainNamingContext \"recon/ldapsearch_${HOST}.txt\" | cut -d ' ' -f2)\" | tee \"recon/ldapsearch_DC_${HOST}.txt\""
+
                 echo "nmap -Pn -p 389 --script ldap-search --script-args 'ldap.username=\"\$(grep rootDomainNamingContext \"recon/ldapsearch_${HOST}.txt\" | cut -d \\" \\" -f2)\"' \"${HOST}\" -oN \"recon/nmap_ldap_${HOST}.txt\""
                 echo
         fi
