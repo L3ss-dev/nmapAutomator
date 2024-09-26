@@ -530,7 +530,7 @@ recon() {
                 availableRecon="$(echo "${allRecon}" | tr "\n" " " | sed 's/\ /,\ /g' | sed 's/..$//')"
         fi
 
-        secs=30
+        secs=10
         count=0
 
         # Ask user for which recon tools to run, default to All if no answer is detected in 30s
